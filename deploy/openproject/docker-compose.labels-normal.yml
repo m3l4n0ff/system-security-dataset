@@ -1,0 +1,12 @@
+services:
+  web:
+    labels:
+      experiment.id: "baseline_normal_v1"
+      event.label: "normal"
+      scenario.id: "NORMAL_USAGE"
+  
+  proxy:
+    labels:
+      experiment.id: "baseline_normal_v1"
+      event.label: "normal"
+      scenario.id: "NORMAL_USAGE"

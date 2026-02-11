@@ -1,0 +1,16 @@
+services:
+  web:
+    labels:
+      experiment.id: "attack_t1190_v1"
+      event.label: "malicious"
+      scenario.id: "T1190_SQLI_XSS"
+      attack.technique: "T1190"
+      attack.tactic: "Initial Access"
+
+  proxy:
+    labels:
+      experiment.id: "attack_t1190_v1"
+      event.label: "malicious"
+      scenario.id: "T1190_SQLI_XSS"
+      attack.technique: "T1190"
+      attack.tactic: "Initial Access"

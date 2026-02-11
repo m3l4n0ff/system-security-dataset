@@ -1,0 +1,16 @@
+services:
+  web:
+    labels:
+      experiment.id: "attack_t1071_v1"
+      event.label: "malicious"
+      scenario.id: "T1071_C2_BEACONING"
+      attack.technique: "T1071.001"
+      attack.tactic: "Command and Control"
+
+  proxy:
+    labels:
+      experiment.id: "attack_t1071_v1"
+      event.label: "malicious"
+      scenario.id: "T1071_C2_BEACONING"
+      attack.technique: "T1071.001"
+      attack.tactic: "Command and Control"

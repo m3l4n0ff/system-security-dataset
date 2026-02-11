@@ -1,0 +1,16 @@
+services:
+  web:
+    labels:
+      experiment.id: "attack_t1548_v1"
+      event.label: "malicious"
+      scenario.id: "T1548_PRIVILEGE_ESCALATION"
+      attack.technique: "T1548"
+      attack.tactic: "Privilege Escalation"
+
+  proxy:
+    labels:
+      experiment.id: "attack_t1548_v1"
+      event.label: "malicious"
+      scenario.id: "T1548_PRIVILEGE_ESCALATION"
+      attack.technique: "T1548"
+      attack.tactic: "Privilege Escalation"

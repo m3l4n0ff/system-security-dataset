@@ -1,0 +1,101 @@
+filebeat.inputs:
+- type: filestream
+  id: docker-containers
+  paths:
+    - /var/lib/docker/containers/*/*.log
+  
+  parsers:
+    - container:
+        stream: all
+        format: docker
+  
+  processors:
+    # Add Docker metadata
+    - add_docker_metadata:
+        host: "unix:///var/run/docker.sock"
+    
+    # Extract custom labels - Docker converts dots to underscores!
+    - script:
+        lang: javascript
+        source: >
+          function process(event) {
+            var labels = event.Get("container.labels");
+            if (labels) {
+              // Docker stores event.label as event_label
+              if (labels["event_label"]) {
+                event.Put("event.label", labels["event_label"]);
+              }
+              if (labels["experiment_id"]) {
+                event.Put("experiment.id", labels["experiment_id"]);
+              }
+              if (labels["scenario_id"]) {
+                event.Put("scenario.id", labels["scenario_id"]);
+              }
+              if (labels["attack_technique"]) {
+                event.Put("attack.technique", labels["attack_technique"]);
+              }
+              if (labels["attack_tactic"]) {
+                event.Put("attack.tactic", labels["attack_tactic"]);
+              }
+            }
+          }
+    
+    # Decode JSON from Caddy logs
+    - decode_json_fields:
+        fields: ["message"]
+        target: "caddy"
+        when:
+          contains:
+            container.name: "proxy"
+    
+    # Parse Rails logs
+    - dissect:
+        when:
+          contains:
+            container.name: "web"
+        tokenizer: '%{rails.lvl}, [%{rails.ts} #%{rails.pid}] %{rails.severity} -- : [%{rails.request_id}] %{rails.rest}'
+        field: "message"
+        target_prefix: "rails"
+        ignore_failure: true
+    
+    - dissect:
+        when:
+          and:
+            - contains:
+                container.name: "web"
+            - regexp:
+                rails.rest: "^method="
+        tokenizer: 'method=%{rails.req.method} path=%{rails.req.path} %{rails.req.rest2}'
+        field: "rails.rest"
+        target_prefix: ""
+        ignore_failure: true
+    
+    # Drop sensitive headers
+    - drop_fields:
+        fields: ["caddy.request.headers.Cookie", "caddy.request.headers.Authorization"]
+        ignore_missing: true
+    
+    # Only keep logs from web and proxy containers
+    - drop_event:
+        when:
+          not:
+            or:
+              - contains:
+                  container.name: "web"
+              - contains:
+                  container.name: "proxy"
+
+  fields:
+    service.name: openproject
+  fields_under_root: true
+
+output.logstash:
+  hosts: ["logstash:5044"]
+
+logging.level: warning
+logging.to_files: true
+logging.files:
+  path: /var/log/filebeat
+  name: filebeat
+  keepfiles: 7
+  permissions: 0644

@@ -1,0 +1,16 @@
+services:
+  web:
+    labels:
+      experiment.id: "attack_t1595_v1"
+      event.label: "malicious"
+      scenario.id: "T1595_VULN_SCANNING"
+      attack.technique: "T1595.002"
+      attack.tactic: "Reconnaissance"
+
+  proxy:
+    labels:
+      experiment.id: "attack_t1595_v1"
+      event.label: "malicious"
+      scenario.id: "T1595_VULN_SCANNING"
+      attack.technique: "T1595.002"
+      attack.tactic: "Reconnaissance"

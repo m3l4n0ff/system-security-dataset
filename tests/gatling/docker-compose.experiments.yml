@@ -1,0 +1,213 @@
+version: '3.8'
+
+services:
+  # ============================================================
+  # EXPERIMENT 1: NORMAL USAGE
+  # ============================================================
+  gatling-normal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openproject-gatling:latest
+    networks:
+      - openproject_frontend
+    labels:
+      experiment.id: "baseline_normal_v1"
+      event.label: "normal"
+      scenario.id: "NORMAL_USAGE"
+    command: >
+      -sf /opt/gatling/user-files/simulations
+      -s openproject.NormalUsageSimulation
+      -rd "Normal Usage Baseline"
+      -DbaseUrl=http://openproject-proxy-1:80
+      -Dusers=10
+      -Dduration=300
+    restart: "no"
+    profiles:
+      - normal
+
+  # ============================================================
+  # EXPERIMENT 2: T1078 - CREDENTIAL STUFFING
+  # ============================================================
+  gatling-t1078:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openproject-gatling:latest
+    networks:
+      - openproject_frontend
+    labels:
+      experiment.id: "attack_t1078_v1"
+      event.label: "malicious"
+      scenario.id: "T1078_CREDENTIAL_STUFFING"
+      attack.technique: "T1078"
+      attack.tactic: "Credential Access"
+    command: >
+      -sf /opt/gatling/user-files/simulations
+      -s openproject.T1078_CredentialStuffingSimulation
+      -rd "T1078 Credential Stuffing Attack"
+      -DbaseUrl=http://openproject-proxy-1:80
+      -Diterations=50
+    restart: "no"
+    profiles:
+      - attack-t1078
+
+  # ============================================================
+  # EXPERIMENT 3: T1083 - API RECONNAISSANCE
+  # ============================================================
+  gatling-t1083:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openproject-gatling:latest
+    networks:
+      - openproject_frontend
+    labels:
+      experiment.id: "attack_t1083_v1"
+      event.label: "malicious"
+      scenario.id: "T1083_API_DISCOVERY"
+      attack.technique: "T1083"
+      attack.tactic: "Discovery"
+    command: >
+      -sf /opt/gatling/user-files/simulations
+      -s openproject.T1083_APIReconnaissanceSimulation
+      -rd "T1083 API Reconnaissance"
+      -DbaseUrl=http://openproject-proxy-1:80
+    restart: "no"
+    profiles:
+      - attack-t1083
+
+  # ============================================================
+  # EXPERIMENT 4: T1071 - C2 BEACONING
+  # ============================================================
+  gatling-t1071:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openproject-gatling:latest
+    networks:
+      - openproject_frontend
+    labels:
+      experiment.id: "attack_t1071_v1"
+      event.label: "malicious"
+      scenario.id: "T1071_C2_BEACONING"
+      attack.technique: "T1071.001"
+      attack.tactic: "Command and Control"
+    command: >
+      -sf /opt/gatling/user-files/simulations
+      -s openproject.T1071_C2BeaconingSimulation
+      -rd "T1071 C2 Beaconing"
+      -DbaseUrl=http://openproject-proxy-1:80
+      -Dduration=600
+    restart: "no"
+    profiles:
+      - attack-t1071
+
+  # ============================================================
+  # EXPERIMENT 5: T1498 - APPLICATION DOS
+  # ============================================================
+  gatling-t1498:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openproject-gatling:latest
+    networks:
+      - openproject_frontend
+    labels:
+      experiment.id: "attack_t1498_v1"
+      event.label: "malicious"
+      scenario.id: "T1498_APP_DOS"
+      attack.technique: "T1498.002"
+      attack.tactic: "Impact"
+    command: >
+      -sf /opt/gatling/user-files/simulations
+      -s openproject.T1498_ApplicationDoSSimulation
+      -rd "T1498 Application DoS"
+      -DbaseUrl=http://openproject-proxy-1:80
+      -Dduration=120
+      -Dattackers=5
+    restart: "no"
+    profiles:
+      - attack-t1498
+
+  # ============================================================
+  # EXPERIMENT 6: T1190 - SQL INJECTION / XSS
+  # ============================================================
+  gatling-t1190:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openproject-gatling:latest
+    networks:
+      - openproject_frontend
+    labels:
+      experiment.id: "attack_t1190_v1"
+      event.label: "malicious"
+      scenario.id: "T1190_SQLI_XSS"
+      attack.technique: "T1190"
+      attack.tactic: "Initial Access"
+    command: >
+      -sf /opt/gatling/user-files/simulations
+      -s openproject.T1190_SQLiXSSSimulation
+      -rd "T1190 SQL Injection / XSS"
+      -DbaseUrl=http://openproject-proxy-1:80
+      -Dduration=180
+    restart: "no"
+    profiles:
+      - attack-t1190
+
+  # ============================================================
+  # EXPERIMENT 7: T1595 - VULNERABILITY SCANNING
+  # ============================================================
+  gatling-t1595:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openproject-gatling:latest
+    networks:
+      - openproject_frontend
+    labels:
+      experiment.id: "attack_t1595_v1"
+      event.label: "malicious"
+      scenario.id: "T1595_VULN_SCANNING"
+      attack.technique: "T1595.002"
+      attack.tactic: "Reconnaissance"
+    command: >
+      -sf /opt/gatling/user-files/simulations
+      -s openproject.T1595_VulnScanningSimulation
+      -rd "T1595 Vulnerability Scanning"
+      -DbaseUrl=http://openproject-proxy-1:80
+      -Dduration=180
+    restart: "no"
+    profiles:
+      - attack-t1595
+
+  # ============================================================
+  # EXPERIMENT 8: T1548 - PRIVILEGE ESCALATION / IDOR
+  # ============================================================
+  gatling-t1548:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openproject-gatling:latest
+    networks:
+      - openproject_frontend
+    labels:
+      experiment.id: "attack_t1548_v1"
+      event.label: "malicious"
+      scenario.id: "T1548_PRIVILEGE_ESCALATION"
+      attack.technique: "T1548"
+      attack.tactic: "Privilege Escalation"
+    command: >
+      -sf /opt/gatling/user-files/simulations
+      -s openproject.T1548_PrivilegeEscalationSimulation
+      -rd "T1548 Privilege Escalation / IDOR"
+      -DbaseUrl=http://openproject-proxy-1:80
+      -Dduration=180
+    restart: "no"
+    profiles:
+      - attack-t1548
+
+networks:
+  openproject_frontend:
+    external: true

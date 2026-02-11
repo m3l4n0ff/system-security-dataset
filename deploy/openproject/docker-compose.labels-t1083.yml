@@ -1,0 +1,16 @@
+services:
+  web:
+    labels:
+      experiment.id: "attack_t1083_v1"
+      event.label: "malicious"
+      scenario.id: "T1083_API_DISCOVERY"
+      attack.technique: "T1083"
+      attack.tactic: "Discovery"
+
+  proxy:
+    labels:
+      experiment.id: "attack_t1083_v1"
+      event.label: "malicious"
+      scenario.id: "T1083_API_DISCOVERY"
+      attack.technique: "T1083"
+      attack.tactic: "Discovery"

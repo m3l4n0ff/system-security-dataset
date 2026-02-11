@@ -1,0 +1,16 @@
+services:
+  web:
+    labels:
+      experiment.id: "attack_t1078_v1"
+      event.label: "malicious"
+      scenario.id: "T1078_CREDENTIAL_STUFFING"
+      attack.technique: "T1078"
+      attack.tactic: "Credential Access"
+
+  proxy:
+    labels:
+      experiment.id: "attack_t1078_v1"
+      event.label: "malicious"
+      scenario.id: "T1078_CREDENTIAL_STUFFING"
+      attack.technique: "T1078"
+      attack.tactic: "Credential Access"

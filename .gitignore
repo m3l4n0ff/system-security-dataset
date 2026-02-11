@@ -176,9 +176,6 @@ cython_debug/
 #.idea/
 
 # Abstra
-# Abstra is an AI-powered process automation framework.
-# Ignore directories containing user credentials, local state, and settings.
-# Learn more at https://abstra.io/docs
 .abstra/
 
 # Visual Studio Code
@@ -195,9 +192,6 @@ cython_debug/
 .pypirc
 
 # Cursor
-#  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to
-#  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
-#  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
 
@@ -205,3 +199,25 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Editor/tool configs
+.claude/
+
+# Gatling runtime and results
+tests/gatling-3.10.3/
+tests/gatling-charts-highcharts-bundle-*.zip
+tests/gatling/gatling-3.10.3
+
+# Backup files
+*.backup
+*.old
+*.broken
+
+# OpenProject runtime artifacts
+deploy/openproject/data/
+deploy/openproject/=
+deploy/openproject/exporting
+deploy/openproject/extracting
+deploy/openproject/naming
+deploy/openproject/resolving
+deploy/openproject/writing
