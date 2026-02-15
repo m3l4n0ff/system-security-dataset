@@ -32,6 +32,7 @@ Gatling (simulations) ──► Caddy proxy ──► Rails (OpenProject) ──
 
 | File | Description |
 |---|---|
+| `dataset/openproject-final-dataset.json` | Final consolidated dataset with all 8 scenarios |
 | `dataset/openproject-car-dataset.csv` | Labeled events in MITRE CAR format (semicolon-delimited, UTF-8 BOM) |
 | `dataset/openproject-jaeger-traces.csv` | OpenTelemetry spans from the Caddy proxy |
 | `dataset/openproject-traces.csv` | Events grouped by Rails trace ID |
